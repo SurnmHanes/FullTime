@@ -23,11 +23,19 @@ all_dfs = []
 
 try:
     with uc.Chrome(options=options, use_subprocess=True, headless=True) as driver:
+        # open a blank page first to let the headless window initialise its size
+        driver.get("about:blank")
+        driver.maximize_window()
+        time.sleep(1)
+        
         for index, url in enumerate(urls, start=1):
             print(f"Scraping page {index} of {len(urls)}...")
             driver.get(url)
-
-            time.sleep(3)
+            # give the first page an extra moment to clear any cookie overlay
+            if index == 1:
+                time.sleep(5)
+            else:
+                time.sleep(3)
 
             try:
                 WebDriverWait(driver, 15).until(

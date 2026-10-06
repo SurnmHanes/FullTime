@@ -59,9 +59,9 @@ try:
                 temp_df = pd.DataFrame(page_rows, columns=columns_list)
 
                 rename_map = {
-                    temp_df.columns[0]: 'Type'
-                    temp_df.columns[1]: 'Date/Time'
-                    temp_df.columns[2]: 'Home Team'
+                    temp_df.columns[0]: 'Type',
+                    temp_df.columns[1]: 'Date/Time',
+                    temp_df.columns[2]: 'Home Team',
                      temp_df.columns[6] if expected_column_count >= 7 else None: 'Away Team',
                     temp_df.columns[7] if expected_column_count >= 8 else None: 'Venue',
                     temp_df.columns[8] if expected_column_count >= 9 else None: 'Competition',

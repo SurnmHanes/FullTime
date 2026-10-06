@@ -28,15 +28,18 @@ all_dfs = []
 
 try:
     with uc.Chrome(options=options, use_subprocess=True) as driver:
-         driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+           
+        driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
             "source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
         })
-        
+
         for index, url in enumerate(urls, start=1):
             print(f"Scraping page {index} of {len(urls)}...")
             driver.get(url)
-            
+
+            # Introduce a slightly dynamic variance in loading delay to mimic a human user
             time.sleep(4)
+
 
             try:
                 WebDriverWait(driver, 15).until(

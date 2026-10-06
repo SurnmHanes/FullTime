@@ -35,16 +35,6 @@ try:
                 )
 
                 table = driver.find_element(By.XPATH, '//table')
-
-                # dynamically discover the column headers used on this specific table
-                header_elements = table.find_elements(By.XPATH, './/thead/tr/th')
-                columns_list = [th.text.strip() for th in header_elements]
-
-                if not columns_list or len(columns_list) < 5:
-                    columns_list = ['Type', "Date/Time", "Home Team", "Blank1", "VS", "Blank2", "Away Team", "Venue", "Competition", "Status"]
-
-                expected_column_count = len(columns_list)
-                
                 row_elements = table.find_elements(By.XPATH, './/tbody/tr')
 
                 page_rows = []
@@ -52,25 +42,13 @@ try:
                     cells = row.find_elements(By.XPATH, './/td')
                     row_data = [c.text.strip() for c in cells]
                     
-                    if len(row_data) == expected_column_count:  # Ensure the row has the expected number of columns
+                    if len(row_data) == 10:  # Ensure the row has the expected number of columns
                         page_rows.append(row_data)
 
                 # turn this specific page's rows into a temporary dataframe
+                columns_list = ['Type', "Date/Time", "Home Team", "Blank1", "VS", "Blank2", "Away Team", "Venue", "Competition", "Status"]
                 temp_df = pd.DataFrame(page_rows, columns=columns_list)
 
-                rename_map = {
-                    temp_df.columns[0]: 'Type',
-                    temp_df.columns[1]: 'Date/Time',
-                    temp_df.columns[2]: 'Home Team',
-                     temp_df.columns[6] if expected_column_count >= 7 else None: 'Away Team',
-                    temp_df.columns[7] if expected_column_count >= 8 else None: 'Venue',
-                    temp_df.columns[8] if expected_column_count >= 9 else None: 'Competition',
-                    temp_df.columns[9] if expected_column_count >= 10 else None: 'Status'
-                }
-
-                rename_map = {k: v for k, v in rename_map.items() if k is not None }
-                temp_df = temp_df.rename(columns=rename_map)
-                
                 if index in [1, 3]:
                     temp_df['Player'] = 'Max'
                 elif index == 2:
@@ -81,14 +59,7 @@ try:
                 # Track which URL/Source it came from (helpful for debugging)
                 temp_df['Source_Page'] = f"Page {index}"
 
-                keep_cols = ['Type', 'Date/Time', 'Home Team', 'Away Team', 'Venue', 'Competition', 'Status', 'Player', 'Source_Page']
-
-                existing_keep_cols = [col for col in keep_cols if col in temp_df.columns]
-                temp_df = temp_df[existing_keep_cols]
-                                
                 all_dfs.append(temp_df)
-
-                print(f"-> Successfully extracted {len(temp_df)} rows from page {index}")
 
             except Exception as e:
                 print(f"Error scraping page {index}: {e}")
@@ -100,9 +71,9 @@ except OSError as e:
 # append all dataframes together into one single sheet
 if all_dfs:
     final_df = pd.concat(all_dfs, ignore_index=True)
+    final_df = final_df.drop(columns=['Blank1','VS','Blank2'])  # Drop unnecessary columns
     final_df.to_csv("fixtures.csv", index=False)
     print(f"Success! Saved {len(final_df)} total fixtures to fixtures.csv")
 
 else:
     print("No data was extracted")
-

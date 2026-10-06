@@ -12,6 +12,11 @@ options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage") 
 options.add_argument("--window-size=1920,1080")
 
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("--disable-gpu")
+options.add_argument("--incognito")
+
+
 options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
 
@@ -22,20 +27,16 @@ urls = ["https://fulltime.thefa.com/fixtures.html?selectedSeason=634837132&selec
 all_dfs = []
 
 try:
-    with uc.Chrome(options=options, use_subprocess=True, headless=True) as driver:
-        # open a blank page first to let the headless window initialise its size
-        driver.get("about:blank")
-        driver.maximize_window()
-        time.sleep(1)
+    with uc.Chrome(options=options, use_subprocess=True) as driver:
+         driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+            "source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+        })
         
         for index, url in enumerate(urls, start=1):
             print(f"Scraping page {index} of {len(urls)}...")
             driver.get(url)
-            # give the first page an extra moment to clear any cookie overlay
-            if index == 1:
-                time.sleep(5)
-            else:
-                time.sleep(3)
+            
+            time.sleep(4)
 
             try:
                 WebDriverWait(driver, 15).until(

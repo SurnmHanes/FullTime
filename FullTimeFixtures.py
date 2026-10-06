@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 options = uc.ChromeOptions()
 
+options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage") 
 options.add_argument("--window-size=1920,1080")
@@ -16,9 +17,7 @@ options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("--disable-gpu")
 options.add_argument("--incognito")
 
-
 options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-
 
 # All 4 fixtures URLs added to a list
 urls = ["https://fulltime.thefa.com/fixtures.html?selectedSeason=634837132&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_578301195&selectedDateCode=all&selectedClub=&selectedTeam=998476034&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_578301195&previousSelectedClub=&itemsPerPage=25", "https://fulltime.thefa.com/fixtures.html?selectedSeason=503728397&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_714435981&selectedDateCode=all&selectedClub=&selectedTeam=732123121&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_714435981&previousSelectedClub=&itemsPerPage=25", "https://fulltime.thefa.com/fixtures.html?selectedSeason=503728397&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_250182602&selectedDateCode=all&selectedClub=&selectedTeam=130926545&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_250182602&previousSelectedClub=&itemsPerPage=25", "https://fulltime.thefa.com/fixtures.html?selectedSeason=342849661&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_843400620&selectedDateCode=all&selectedClub=&selectedTeam=373010773&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_843400620&previousSelectedClub=&itemsPerPage=25" ]

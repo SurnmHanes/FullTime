@@ -22,7 +22,7 @@ urls = ["https://fulltime.thefa.com/fixtures.html?selectedSeason=634837132&selec
 all_dfs = []
 
 try:
-    with uc.Chrome(options=options, use_subprocess=True) as driver:
+    with uc.Chrome(options=options, use_subprocess=True, version_main=154) as driver:
            
         driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
             "source": "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"

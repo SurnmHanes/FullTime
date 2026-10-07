@@ -2,7 +2,7 @@ name: Daily Fixture Extraction
 
 on:
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
@@ -17,9 +17,18 @@ jobs:
         with:
           python-version: '3.12'
 
+      # 🌟 NEW STEP: Automatically forces the Linux runner to download 
+      # a perfectly synchronized Chrome + ChromeDriver pair before scraping
+      - name: Setup Chrome and WebDriver
+        uses: browser-actions/setup-chrome@v3
+        with:
+          chrome-version: stable
+          install-chromedriver: true
+
+      # Modified to ensure the package configuration matches the browser binaries exactly
       - name: Install Tools & Dependencies
         run: |
-          pip install pandas undetected-chromedriver setuptools
+          pip install pandas undetected-chromedriver setuptools selenium
 
       - name: Run Script
         run: python FullTimeFixtures.py

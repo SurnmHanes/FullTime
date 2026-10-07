@@ -20,9 +20,10 @@ jobs:
       # 🌟 NEW STEP: Automatically forces the Linux runner to download 
       # a perfectly synchronized Chrome + ChromeDriver pair before scraping
       - name: Setup Chrome and WebDriver
-        uses: browser-actions/setup-chrome@v3
+        uses: browser-actions/setup-chrome@v2
         with:
           chrome-version: stable
+          install-dependencies: true
           install-chromedriver: true
 
       # Modified to ensure the package configuration matches the browser binaries exactly

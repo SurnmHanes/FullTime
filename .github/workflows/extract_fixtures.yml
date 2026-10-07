@@ -2,8 +2,8 @@ name: Daily Fixture Extraction
 
 on:
   schedule:
-    # This instructs the script to execute automatically every day at 6:00 AM UTC (adjust as needed!)
-    - cron: '0 6 * * *'
+    # This instructs the script to execute automatically every day at 12:00 PM UTC (adjust as needed!)
+    - cron: '0 12 * * *'
   workflow_dispatch: # This adds a manual "Run now" button on the GitHub interface for testing
 
 jobs:

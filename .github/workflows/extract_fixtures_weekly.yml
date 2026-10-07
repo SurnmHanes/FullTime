@@ -1,0 +1,33 @@
+name: Daily Fixture Extraction
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  scrape-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Configure Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Tools & Dependencies
+        run: |
+          pip install pandas undetected-chromedriver setuptools
+
+      - name: Run Script
+        run: python FullTimeFixtures.py
+
+      - name: Save and Commit Updated CSV to Repository
+        run: |
+          git config --global user.name "GitHub Action Automation"
+          git config --global user.email "actions@github.com"
+          git add fixtures.csv
+          git commit -m "Automated update of youth football fixtures" || exit 0
+          git push

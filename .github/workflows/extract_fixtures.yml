@@ -3,7 +3,8 @@ name: Daily Fixture Extraction
 on:
   schedule:
     - cron: '15 9 * * *'
-
+  workflow_dispatch:
+  
 jobs:
 
   extract-data:

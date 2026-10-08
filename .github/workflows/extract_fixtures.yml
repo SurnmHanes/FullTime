@@ -2,11 +2,11 @@ name: Daily Fixture Extraction
 
 on:
   schedule:
-    - cron: '25 8 * * *'
-  workflow_dispatch:
+    - cron: '15 9 * * *'
 
 jobs:
-  scrape-data:
+
+  extract-data:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code

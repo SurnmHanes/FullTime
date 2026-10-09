@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC 
+import random
 
 options = uc.ChromeOptions()
 
@@ -33,7 +34,7 @@ try:
             driver.get(url)
 
             # Introduce a slightly dynamic variance in loading delay to mimic a human user
-            time.sleep(4)
+            time.sleep(random.uniform(4, 7))
 
 
             try:

@@ -57,7 +57,7 @@ try:
                     table_found = False
                     print(f"Error: Page {index} is permanently blocked by CloudFlare firewall filters.")
                     continue
-            if not table_found
+            if not table_found:
                 # isolate "no fixtures" from "blocked"
                 page_source = driver.page_source.lower()
                 blocked = ( 

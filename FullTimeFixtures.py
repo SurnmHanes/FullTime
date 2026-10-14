@@ -36,26 +36,43 @@ try:
             # Introduce a slightly dynamic variance in loading delay to mimic a human user
             time.sleep(random.uniform(4, 7))
 
-
+            table_found = False
             try:
                 WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.XPATH, '//table'))
                 )
-
+                table_found = True
             except Exception:
-
-                print(f"   Table not found immediately on page {index}. Retrying connection query...")
+                # one retry in case the page was slow to load
+                print(f"   No table yet on page {index}. Retrying once...")
                 driver.get(url)
-                time.sleep(7)
+                time.sleep(random.uniform(5, 8))
                 
                 try:
                     WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.XPATH, '//table'))
                     )
-                except Exception as inner_e:
+                    table_found = True
+                except Exception:
+                    table_found = False
                     print(f"Error: Page {index} is permanently blocked by CloudFlare firewall filters.")
                     continue
+            if not table_found
+                # isolate "no fixtures" from "blocked"
+                page_source = driver.page_source.lower()
+                blocked = ( 
+                    "just a moment" in page_source
+                    or "cf-challenge" in page_source
+                    or "cloudflare" in page_source
+                    or "checking your browser" in page_source
+                )
+                if blocker:
+                    print(f"Page {index} appears to be blocked by CloudFlare. Skipping.")
+                else:
+                    print(f"Page {index} loaded fine but has no table - likely no fixtures scheduled. Skipping.")
+                continue
 
+            # table exists - extract data
             try:
                 table = driver.find_element(By.XPATH, '//table')
                 row_elements = table.find_elements(By.XPATH, './/tbody/tr')
@@ -68,6 +85,10 @@ try:
                     if len(row_data) == 10:  # Ensure the row has the expected number of columns
                         page_rows.append(row_data)
 
+                if not page_rows:
+                    print(f"Page {index} has a table but no usable rows - likely no fixtures. Skipping.")
+                    continue
+                    
                 # turn this specific page's rows into a temporary dataframe
                 columns_list = ['Type', "Date/Time", "Home Team", "Blank1", "VS", "Blank2", "Away Team", "Venue", "Competition", "Status"]
                 temp_df = pd.DataFrame(page_rows, columns=columns_list)

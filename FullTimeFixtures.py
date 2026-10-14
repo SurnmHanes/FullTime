@@ -17,7 +17,7 @@ options.add_argument("--disable-gpu")
 options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
 # All 4 fixtures URLs added to a list
-urls = ["https://fulltime.thefa.com/fixtures.html?selectedSeason=634837132&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_578301195&selectedDateCode=all&selectedClub=&selectedTeam=998476034&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_578301195&previousSelectedClub=&itemsPerPage=25", "https://fulltime.thefa.com/fixtures.html?selectedSeason=503728397&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_714435981&selectedDateCode=all&selectedClub=&selectedTeam=732123121&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_714435981&previousSelectedClub=&itemsPerPage=25", "https://fulltime.thefa.com/fixtures.html?selectedSeason=503728397&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_250182602&selectedDateCode=all&selectedClub=&selectedTeam=130926545&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_250182602&previousSelectedClub=&itemsPerPage=25", "https://fulltime.thefa.com/index.html?selectedSeason=342849661&selectedFixtureGroupAgeGroup=0&selectedDivision=233925053&selectedCompetition=0#tab-2" ]
+urls = ["https://fulltime.thefa.com/fixtures.html?selectedSeason=634837132&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_578301195&selectedDateCode=all&selectedClub=&selectedTeam=998476034&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_578301195&previousSelectedClub=&itemsPerPage=25", "https://fulltime.thefa.com/fixtures.html?selectedSeason=503728397&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_714435981&selectedDateCode=all&selectedClub=&selectedTeam=732123121&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_714435981&previousSelectedClub=&itemsPerPage=25", "https://fulltime.thefa.com/fixtures.html?selectedSeason=503728397&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_250182602&selectedDateCode=all&selectedClub=&selectedTeam=130926545&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_250182602&previousSelectedClub=&itemsPerPage=25", "https://fulltime.thefa.com/fixtures.html?selectedSeason=342849661&selectedFixtureGroupAgeGroup=0&selectedFixtureGroupKey=1_843400620&selectedDateCode=all&selectedClub=&selectedTeam=373010773&selectedRelatedFixtureOption=3&selectedFixtureDateStatus=&selectedFixtureStatus=&previousSelectedFixtureGroupAgeGroup=&previousSelectedFixtureGroupKey=1_843400620&previousSelectedClub=&itemsPerPage=25" ]
 
 # A list to store the dataframe from each URL
 all_dfs = []
@@ -38,7 +38,7 @@ try:
 
             table_found = False
             try:
-                WebDriverWait(driver, 10).until(
+                WebDriverWait(driver, 20).until(
                     EC.presence_of_element_located((By.XPATH, '//table'))
                 )
                 table_found = True
@@ -49,7 +49,7 @@ try:
                 time.sleep(random.uniform(5, 8))
                 
                 try:
-                    WebDriverWait(driver, 10).until(
+                    WebDriverWait(driver, 20).until(
                     EC.presence_of_element_located((By.XPATH, '//table'))
                     )
                     table_found = True

@@ -116,6 +116,7 @@ except OSError as e:
 if all_dfs:
     final_df = pd.concat(all_dfs, ignore_index=True)
     final_df = final_df.drop(columns=['Blank1','VS','Blank2'])  # Drop unnecessary columns
+    final_df.sort_values(["Date/Time", "Player"])
     final_df.to_csv("fixtures.csv", index=False)
     print(f"Success! Saved {len(final_df)} total fixtures to fixtures.csv")
 

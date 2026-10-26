@@ -66,7 +66,7 @@ try:
                     or "cloudflare" in page_source
                     or "checking your browser" in page_source
                 )
-                if blocker:
+                if blocked:
                     print(f"Page {index} appears to be blocked by CloudFlare. Skipping.")
                 else:
                     print(f"Page {index} loaded fine but has no table - likely no fixtures scheduled. Skipping.")
@@ -116,7 +116,8 @@ except OSError as e:
 if all_dfs:
     final_df = pd.concat(all_dfs, ignore_index=True)
     final_df = final_df.drop(columns=['Blank1','VS','Blank2'])  # Drop unnecessary columns
-    final_df.sort_values(["Date/Time", "Player"])
+    final_df['Date/Time'] = pd.to_datetime(final_df['Date/Time'], format="%d/%m/%y %H:%M", errors='coerce')
+    final_df = final_df.sort_values(["Date/Time", "Player"])
     final_df.to_csv("fixtures.csv", index=False)
     print(f"Success! Saved {len(final_df)} total fixtures to fixtures.csv")
 
